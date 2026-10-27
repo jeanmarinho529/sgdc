@@ -1,0 +1,20 @@
+{
+  "name": "sgdc",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SGDC - Sistema de Gestão de Demandas Comunitárias (Programa UFMS Digital)",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.cjs --watch",
+    "build": "node scripts/build.cjs",
+    "test": "node --test src/lib/*.test.js"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0"
+  },
+  "license": "MIT"
+}
