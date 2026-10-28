@@ -1,0 +1,64 @@
+digraph ER {
+  graph [rankdir=LR, fontname="Helvetica", nodesep=0.5, ranksep=0.9, pad=0.3, bgcolor="white"];
+  node  [shape=plain, fontname="Helvetica", fontsize=11];
+  edge  [headport=h, tailport=h, fontname="Helvetica", fontsize=10, color="#1d4f91", fontcolor="#1d4f91", arrowhead=none];
+
+  solicitante [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#1d4f91"><font color="white"><b>solicitante</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> id</td></tr>
+    <tr><td align="left">nome</td></tr>
+    <tr><td align="left">email <i>(UNIQUE)</i></td></tr>
+    <tr><td align="left">telefone</td></tr></table>>];
+
+  membro_equipe [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#1d4f91"><font color="white"><b>membro_equipe</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> id</td></tr>
+    <tr><td align="left">nome</td></tr>
+    <tr><td align="left">email <i>(UNIQUE)</i></td></tr>
+    <tr><td align="left">papel <i>(docente|bolsista)</i></td></tr></table>>];
+
+  demanda [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#1d4f91"><font color="white"><b>demanda</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> id</td></tr>
+    <tr><td align="left">protocolo <i>(UNIQUE)</i></td></tr>
+    <tr><td align="left"><b>FK</b> solicitante_id</td></tr>
+    <tr><td align="left"><b>FK</b> categoria_id</td></tr>
+    <tr><td align="left"><b>FK</b> responsavel_id <i>(nulo)</i></td></tr>
+    <tr><td align="left"><b>FK</b> situacao</td></tr>
+    <tr><td align="left"><b>FK</b> prioridade</td></tr>
+    <tr><td align="left">local, descricao</td></tr>
+    <tr><td align="left">consentimento <i>(=1)</i></td></tr>
+    <tr><td align="left">criada_em, atualizada_em</td></tr></table>>];
+
+  historico [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#1d4f91"><font color="white"><b>historico</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> id</td></tr>
+    <tr><td align="left"><b>FK</b> demanda_id</td></tr>
+    <tr><td align="left"><b>FK</b> situacao</td></tr>
+    <tr><td align="left"><b>FK</b> membro_id <i>(nulo)</i></td></tr>
+    <tr><td align="left">observacao, registrado_em</td></tr></table>>];
+
+  categoria [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#7a8794"><font color="white"><b>categoria</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> id</td></tr>
+    <tr><td align="left">nome <i>(UNIQUE)</i></td></tr></table>>];
+
+  situacao [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#7a8794"><font color="white"><b>situacao</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> codigo</td></tr>
+    <tr><td align="left">rotulo, ordem, aberta</td></tr></table>>];
+
+  prioridade [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td port="h" bgcolor="#7a8794"><font color="white"><b>prioridade</b></font></td></tr>
+    <tr><td align="left"><b>PK</b> codigo</td></tr>
+    <tr><td align="left">rotulo, peso</td></tr></table>>];
+
+  solicitante -> demanda   [taillabel="1", headlabel="N", label="registra"];
+  membro_equipe -> demanda [taillabel="0..1", headlabel="N", label="responde por"];
+  categoria -> demanda     [taillabel="1", headlabel="N", label="classifica"];
+  situacao -> demanda      [taillabel="1", headlabel="N"];
+  prioridade -> demanda    [taillabel="1", headlabel="N"];
+  demanda -> historico     [taillabel="1", headlabel="N", label="possui"];
+  membro_equipe -> historico [taillabel="0..1", headlabel="N", label="autor"];
+  situacao -> historico    [taillabel="1", headlabel="N"];
+}
